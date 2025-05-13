@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Page</title>
+    <style>
+        body { font-family: Calibri, sans-serif; font-size: 9pt; margin: 0; }
+        .container { width: 190mm; min-height: 287mm; margin: 10mm auto; padding: 10mm; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; text-align: left; }
+        .header { text-align: center; }
+        .bold { font-weight: bold; }
+        .underline { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>First Page</h2>
+            <!-- Header data from A1:I19 -->
+            {% for row in data.header %}
+                <p>{{ row | join(" | ") }}</p>
+            {% endfor %}
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th width="5.5mm">Unit</th>
+                    <th width="7.56mm">B</th>
+                    <th width="7.56mm">Quantity</th>
+                    <th width="5.22mm">Serial No.</th>
+                    <th width="35mm">Description</th>
+                    <th width="7.23mm">Rate</th>
+                    <th width="10.7mm">Amount</th>
+                    <th width="8.33mm">H</th>
+                    <th width="6.56mm">Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data.items %}
+                    <tr>
+                        <td>{{ item.unit }}</td>
+                        <td></td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.serial_no }}</td>
+                        <td class="{% if item.bold %}bold{% endif %} {% if item.underline %}underline{% endif %}">{{ item.description }}</td>
+                        <td>{{ item.rate }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td></td>
+                        <td>{{ item.remark }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4"></td>
+                    <td>Grand Total</td>
+                    <td></td>
+                    <td>{{ data.totals.grand_total }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>Tender Premium @ {{ data.totals.premium.percent | format_percent }} {{ data.totals.premium.type }}</td>
+                    <td>{{ data.totals.premium.percent | format_percent }}</td>
+                    <td>{{ data.totals.premium.amount }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>Payable Amount</td>
+                    <td></td>
+                    <td>{{ data.totals.payable }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% macro format_percent(value) %}{{ "{:.2%}".format(value) }}{% endmacro %}

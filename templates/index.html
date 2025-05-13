@@ -1,0 +1,136 @@
+import streamlit as st
+import pandas as pd
+import pdfkit
+from docx import Document
+from docx.shared import Pt, Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from num2words import num2words
+import os
+import shutil
+from datetime import datetime
+import zipfile
+import tempfile
+from jinja2 import Environment, FileSystemLoader
+
+# Set up Jinja2 environment for HTML rendering
+env = Environment(loader=FileSystemLoader("templates"))
+
+# Temporary directory for PDFs and Word files
+TEMP_DIR = tempfile.mkdtemp()
+
+# Configure wkhtmltopdf (Streamlit Cloud may require specific path)
+config = pdfkit.configuration()
+
+# Helper function to convert number to words (Indian system, simplified)
+def number_to_words(number):
+    return num2words(int(number), lang="en_IN").title()
+
+# Function to process bill data (same as before, simplified for brevity)
+def process_bill(ws_wo, ws_bq, ws_extra, premium_percent, premium_type):
+    # Placeholder for bill processing logic
+    # (Reusing the logic from the Flask app’s process_bill function)
+    # This would generate first_page_data, last_page_data, deviation_data, extra_items_data, note_sheet_data
+    # For brevity, assume it returns similar structured data
+    first_page_data = {"header": [], "items": [], "totals": {}}
+    last_page_data = {"payable_amount": 0, "amount_words": ""}
+    deviation_data = {"items": [], "summary": {}}
+    extra_items_data = {"items": []}
+    note_sheet_data = {"notes": []}
+    # Implement full logic here as in the Flask version
+    return first_page_data, last_page_data, deviation_data, extra_items_data, note_sheet_data
+
+# Function to generate PDFs (adapted for Streamlit)
+def generate_pdf(sheet_name, data, orientation, output_path):
+    template = env.get_template(f"{sheet_name.lower().replace(' ', '_')}.html")
+    html_content = template.render(data=data)
+    pdfkit.from_string(
+        html_content,
+        output_path,
+        configuration=config,
+        options={"page-size": "A4", "orientation": orientation, "margin-top": "0.25in", "margin-bottom": "0.6in", "margin-left": "0.25in", "margin-right": "0.25in"}
+    )
+
+# Function to create Word documents (same as Flask version)
+def create_word_doc(sheet_name, data, doc_path):
+    doc = Document()
+    # Implement as in Flask version
+    doc.save(doc_path)
+
+# Streamlit app
+st.title("Bill Generator")
+st.write("Upload an Excel file and enter tender premium details to generate bills, deviation statements, and notes.")
+
+# File upload
+uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
+
+# Tender premium inputs
+premium_percent = st.number_input("Tender Premium %", min_value=0.0, max_value=100.0, step=0.01)
+premium_type = st.selectbox("Premium Type", ["Above", "Below"])
+
+if uploaded_file is not None and st.button("Generate Bill"):
+    try:
+        # Read Excel sheets
+        xl = pd.ExcelFile(uploaded_file)
+        ws_wo = xl.parse("Work Order")
+        ws_bq = xl.parse("Bill Quantity")
+        ws_extra = xl.parse("Extra Items")
+
+        # Process bill
+        first_page_data, last_page_data, deviation_data, extra_items_data, note_sheet_data = process_bill(
+            ws_wo, ws_bq, ws_extra, premium_percent, premium_type.lower()
+        )
+
+        # Generate PDFs
+        pdf_files = []
+        for sheet_name, data, orientation in [
+            ("First Page", first_page_data, "portrait"),
+            ("Last Page", last_page_data, "portrait"),
+            ("Extra Items", extra_items_data, "portrait"),
+            ("Deviation Statement", deviation_data, "landscape"),
+            ("Note Sheet", note_sheet_data, "portrait")
+        ]:
+            pdf_path = os.path.join(TEMP_DIR, f"{sheet_name.replace(' ', '_')}.pdf")
+            generate_pdf(sheet_name, data, orientation, pdf_path)
+            pdf_files.append(pdf_path)
+
+        # Merge PDFs
+        current_date = datetime.now().strftime("%Y%m%d")
+        pdf_output = os.path.join(TEMP_DIR, f"BILL_AND_DEVIATION_{current_date}.pdf")
+        from PyPDF2 import PdfMerger
+        merger = PdfMerger()
+        for pdf in pdf_files:
+            merger.append(pdf)
+        merger.write(pdf_output)
+        merger.close()
+
+        # Generate Word documents
+        word_files = []
+        for sheet_name, data in [
+            ("First Page", first_page_data),
+            ("Last Page", last_page_data),
+            ("Extra Items", extra_items_data),
+            ("Deviation Statement", deviation_data),
+            ("Note Sheet", note_sheet_data)
+        ]:
+            doc_path = os.path.join(TEMP_DIR, f"{sheet_name.replace(' ', '_')}.docx")
+            create_word_doc(sheet_name, data, doc_path)
+            word_files.append(doc_path)
+
+        # Create ZIP file
+        zip_path = os.path.join(TEMP_DIR, "output.zip")
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+            zipf.write(pdf_output, os.path.basename(pdf_output))
+            for word_file in word_files:
+                zipf.write(word_file, os.path.basename(word_file))
+
+        # Provide download link
+        with open(zip_path, "rb") as f:
+            st.download_button(
+                label="Download Bill Output",
+                data=f,
+                file_name="bill_output.zip",
+                mime="application/zip"
+            )
+
+    except Exception as e:
+        st.error(f"Error: {str(e)}")

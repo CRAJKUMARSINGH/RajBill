@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deviation Statement</title>
+    <style>
+        body { font-family: Calibri, sans-serif; font-size: 9pt; margin: 0; }
+        .container { width: 277mm; min-height: 190mm; margin: 10mm auto; padding: 10mm; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; text-align: left; }
+        .summary td { font-weight: bold; }
+        .no-border { border: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Serial No.</th>
+                    <th>Description</th>
+                    <th>Unit</th>
+                    <th>Qty WO</th>
+                    <th>Rate</th>
+                    <th>Amt WO</th>
+                    <th>Qty Bill</th>
+                    <th>Amt Bill</th>
+                    <th>Excess Qty</th>
+                    <th>Excess Amt</th>
+                    <th>Saving Qty</th>
+                    <th>Saving Amt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data.items %}
+                    <tr>
+                        <td>{{ item.serial_no }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.unit }}</td>
+                        <td>{{ item.qty_wo }}</td>
+                        <td>{{ item.rate }}</td>
+                        <td>{{ item.amt_wo }}</td>
+                        <td>{{ item.qty_bill }}</td>
+                        <td>{{ item.amt_bill }}</td>
+                        <td>{{ item.excess_qty }}</td>
+                        <td>{{ item.excess_amt }}</td>
+                        <td>{{ item.saving_qty }}</td>
+                        <td>{{ item.saving_amt }}</td>
+                    </tr>
+                {% endfor %}
+                <tr class="summary">
+                    <td colspan="2">Grand Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ data.summary.work_order_total }}</td>
+                    <td></td>
+                    <td>{{ data.summary.executed_total }}</td>
+                    <td></td>
+                    <td>{{ data.summary.overall_excess }}</td>
+                    <td></td>
+                    <td>{{ data.summary.overall_saving }}</td>
+                </tr>
+                <tr class="summary">
+                    <td colspan="2">Add Tender Premium ({{ data.summary.premium.percent | format_percent }} {{ data.summary.premium.type }})</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ data.summary.tender_premium_f }}</td>
+                    <td></td>
+                    <td>{{ data.summary.tender_premium_h }}</td>
+                    <td></td>
+                    <td>{{ data.summary.tender_premium_j }}</td>
+                    <td></td>
+                    <td>{{ data.summary.tender_premium_l }}</td>
+                </tr>
+                <tr class="summary">
+                    <td colspan="2">Grand Total including Tender Premium</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ data.summary.grand_total_f }}</td>
+                    <td></td>
+                    <td>{{ data.summary.grand_total_h }}</td>
+                    <td></td>
+                    <td>{{ data.summary.grand_total_j }}</td>
+                    <td></td>
+                    <td>{{ data.summary.grand_total_l }}</td>
+                </tr>
+                <tr class="no-border">
+                    <td colspan="2">
+                        {% if data.summary.net_difference > 0 %}
+                            Overall Excess With Respect to the Work Order Amount Rs.
+                        {% else %}
+                            Overall Saving With Respect to the Work Order Amount Rs.
+                        {% endif %}
+                    </td>
+                    <td colspan="5"></td>
+                    <td>{{ data.summary.net_difference | abs }}</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr class="no-border">
+                    <td colspan="2">
+                        {% if data.summary.net_difference > 0 %}
+                            Overall Excess With Respect to the Work Order Amount %
+                        {% else %}
+                            Overall Saving With Respect to the Work Order Amount %
+                        {% endif %}
+                    </td>
+                    <td colspan="5"></td>
+                    <td>{{ data.summary.net_difference_percent | format_percent }}</td>
+                    <td colspan="4"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% macro format_percent(value) %}{{ "{:.2%}".format(value / 100) }}{% endmacro %}

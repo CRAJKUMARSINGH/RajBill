@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Certificate II</title>
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            font-size: 9pt;
+            margin: 0;
+        }
+        .container {
+            width: 180mm;
+            min-height: 287mm;
+            margin: 10mm 15mm;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .cert-text {
+            margin-top: 20mm;
+            text-align: justify;
+            line-height: 2.25; /* Increased line spacing */
+        }
+        .cert-text p {
+            margin: 0 0 10px 0;
+        }
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .manual-entry {
+            border-bottom: 1px dashed #000;
+            padding-bottom: 2px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cert-text">
+            <p>II. CERTIFICATE AND SIGNATURES</p>
+            <p>The measurements on which are based the entries in columns 1 to 6 of Account I, were made by <span class="manual-entry">{{ measurement_officer }}</span> on <span class="manual-entry">{{ measurement_date }}</span>, and are recorded at page <span class="manual-entry">{{ measurement_book_page }}</span> of Measurement Book No. <span class="manual-entry">{{ measurement_book_no }}</span></p>
+            <p>*Certified that in addition to and quite apart from the quantities of work actually executed, as shown in column 4 of Account I, some work has actually been done in connection with several items and the value of such work (after deduction therefrom the proportionate amount of secured advances, if any, ultimately recoverable on account of the quantities of materials used therein) is in no case, less than the advance payments as per item 2 of the Memorandum, if payments made or proposed to be made, for the convenience of the contractor, in anticipation of and subject to the result of detailed measurements, which will be made as soon as possible.</p>
+            <p class="signature manual-entry">Dated signature of officer preparing the bill<br>{{ officer_name }}<br>{{ officer_designation }}</p>
+            <p class="signature manual-entry">+Dated signature of officer authorising payment<br>{{ authorising_officer_name }}<br>{{ authorising_officer_designation }}</p>
+        </div>
+    </div>
+</body>
+</html>

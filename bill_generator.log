@@ -1,0 +1,37 @@
+2025-05-04 08:22:09,774 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:26:42,805 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:26:58,621 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:51:36,995 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:51:46,732 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:55:17,337 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:57:40,362 - __main__ - INFO - Excel file validation successful
+2025-05-04 08:59:11,982 - __main__ - INFO - Excel file validation successful
+2025-05-04 09:06:31,803 - __main__ - INFO - Excel file validation successful
+2025-05-11 22:52:00,482 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpz5q_lo4o
+2025-05-11 22:52:00,631 - __main__ - INFO - Excel file validation successful
+2025-05-11 22:52:00,653 - __main__ - ERROR - Error processing file: name 'render_template' is not defined
+2025-05-11 22:52:00,654 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpz5q_lo4o
+2025-05-11 22:59:21,838 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpmxf3hib5
+2025-05-11 22:59:21,986 - __main__ - INFO - Excel file validation successful
+2025-05-11 22:59:22,009 - __main__ - ERROR - Error processing file: list indices must be integers or slices, not str
+2025-05-11 22:59:22,010 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpmxf3hib5
+2025-05-11 23:01:04,550 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpbsmaami7
+2025-05-11 23:01:04,697 - __main__ - INFO - Excel file validation successful
+2025-05-11 23:01:04,720 - __main__ - ERROR - Error processing file: list indices must be integers or slices, not str
+2025-05-11 23:01:04,722 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpbsmaami7
+2025-05-11 23:06:35,631 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpw28e2ufu
+2025-05-11 23:06:35,767 - __main__ - INFO - Excel file validation successful
+2025-05-11 23:06:35,779 - __main__ - ERROR - Error processing file: Error processing bill data: isinstance() arg 2 must be a type, a tuple of types, or a union
+2025-05-11 23:06:35,780 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpw28e2ufu
+2025-05-11 23:07:34,385 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpm898cpex
+2025-05-11 23:07:34,524 - __main__ - INFO - Excel file validation successful
+2025-05-11 23:07:34,536 - __main__ - ERROR - Error processing file: Error processing bill data: type object 'datetime.datetime' has no attribute 'datetime'
+2025-05-11 23:07:34,537 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmpm898cpex
+2025-05-11 23:08:30,311 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmp9cdddzci
+2025-05-11 23:08:30,449 - __main__ - INFO - Excel file validation successful
+2025-05-11 23:08:30,474 - __main__ - ERROR - Error processing file: 'amount_words'
+2025-05-11 23:08:30,475 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmp9cdddzci
+2025-05-11 23:09:27,623 - __main__ - INFO - Created temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmp2s3yyxce
+2025-05-11 23:09:27,754 - __main__ - INFO - Excel file validation successful
+2025-05-11 23:09:27,779 - __main__ - ERROR - Error processing file: 'amount_words'
+2025-05-11 23:09:27,780 - __main__ - INFO - Cleaned up temporary directory: C:\Users\Rajkumar\AppData\Local\Temp\tmp2s3yyxce

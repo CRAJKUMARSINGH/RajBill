@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Note Sheet</title>
+    <style>
+        body { font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 12pt; margin: 0; }
+        .container { width: 190mm; min-height: 287mm; margin: 10mm auto; padding: 10mm; box-sizing: border-box; }
+        p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% for note in data.notes %}
+            <p>{{ note }}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
